@@ -1,0 +1,112 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Solution {
+    public static void main(String args[] ) throws Exception {
+        /* Do not alter code in main method */
+       Shirt[] shirts = new Shirt[5];
+        
+        Scanner sc = new Scanner(System.in);
+        
+        for(int i = 0;i<5;i++)
+        {
+            int tag = sc.nextInt();sc.nextLine();
+            String brand = sc.nextLine();
+            double price = sc.nextDouble();sc.nextLine();
+            char g = sc.nextLine().charAt(0);
+            shirts[i] = new Shirt(tag,brand,price,g);
+        }
+        
+        
+       
+        double price = sc.nextDouble();
+        
+        for(Shirt s: shirts)
+        {
+            System.out.println(getDiscountPrice(s));            
+        }
+        
+        Shirt[] result = getShirtWithMoreThanSpecificPrice(shirts,price);
+        
+        for(Shirt s: result)
+        {
+            System.out.println(s.getTag()+" "+s.getPrice()+ " " + s.getBrand());
+        }
+    }
+    
+    public static double getDiscountPrice(Shirt s){
+        double dis=0.0;
+        if(s.gender=='m'){
+            dis=s.price-(s.price*10)/100;
+        }else if(s.gender=='f'){
+            dis=s.price-(s.price*20)/100;
+        }else if(s.gender=='u'){
+            dis=s.price-(s.price*30)/100;
+        }
+        return dis;
+        
+    }
+    public static Shirt[] getShirtWithMoreThanSpecificPrice(Shirt[] shirts,double price){
+        List<Shirt> newShirts=new ArrayList();
+        for(Shirt i:shirts){
+            if(i.price>price){
+                newShirts.add(i);
+            }
+        }
+        Shirt[] s=new Shirt[newShirts.size()];
+        s=newShirts.toArray(s);
+        
+        for(int i=0;i<s.length;i++){
+            for(int j=i;j<s.length;j++){
+            if(s[i].price>s[j].price){
+               Shirt temp=s[i];
+               s[i]=s[j];
+               s[j]=temp; 
+            }
+            }
+        }
+        return s;
+        
+    }
+}
+
+class Shirt
+{
+    int tag;
+    String brand;
+    double price;
+    char gender;
+    Shirt(int tag,String brand,double price,char gender){
+        this.tag=tag;
+    this.brand=brand;
+    this.price=price;
+    this.gender=gender;
+    }
+    
+    public int getTag() {
+        return tag;
+    }
+    public void setTag(int tag) {
+        this.tag = tag;
+    }
+    public String getBrand() {
+        return brand;
+    }
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+    public double getPrice() {
+        return price;
+    }
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    public char getGender() {
+        return gender;
+    }
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+    
+}
